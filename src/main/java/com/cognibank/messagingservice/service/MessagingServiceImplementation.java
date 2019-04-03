@@ -1,6 +1,7 @@
 package com.cognibank.messagingservice.service;
 
 import com.cognibank.messagingservice.model.Message;
+import com.cognibank.messagingservice.model.MessageForIF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
@@ -27,6 +28,32 @@ public class MessagingServiceImplementation implements MessagingService {
         }
     }
 
+    @Override
+    public void sendMessageForIF(final MessageForIF messageForIF){
+
+        if(messageForIF != null && messageForIF.getType().equalsIgnoreCase(EMAIL_TYPE)){
+            sendEMailNotificationForIF(messageForIF);
+        }else if(messageForIF.getType().equalsIgnoreCase(PHONE_TYPE)) {
+            //sendASmsToUser(messageForIF);
+        }
+
+    }
+
+    void sendEMailNotificationForIF(final MessageForIF messageForIF){
+        try {
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setTo(messageForIF.getEmail());
+            mailMessage.setFrom(env.getProperty("spring.mail.username"));
+            mailMessage.setSubject(SUBJECTFORIF);
+            mailMessage.setText(getEmailTextForIF(messageForIF.getAccountBalance()));
+            // Java Mail API for sending the email.
+            javaMailSender.send(mailMessage);
+        } catch (Exception exception) {
+            System.out.println("Exception has occured while sending the email...Exception class is " + exception);
+        }
+    }
+
+
     private void sendAnEmailToUser(Message message) {
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -47,6 +74,16 @@ public class MessagingServiceImplementation implements MessagingService {
         sb.append("\tYour One Time Password is " + code);
         sb.append("\n\n");
         sb.append("\tIt will expiry in next 10 minutes. Please don't share with anyone else. Cogni-Bank associates will never call you and ask for your code.\n\n");
+        sb.append("\tThank you for banking with us!");
+        return sb.toString();
+    }
+
+    private String getEmailTextForIF(final String accountBalance) {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("Dear Customer,\n\n");
+        sb.append("\tYour Account Balance is " + accountBalance);
+        sb.append(" ");
+        sb.append("which is less than the minimum requirement. Please maintain minimum funds to escape penalty.\n\n");
         sb.append("\tThank you for banking with us!");
         return sb.toString();
     }

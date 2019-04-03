@@ -20,9 +20,9 @@ public class TwoFactorAuthenticationApplication {
 	@Autowired
 	private Environment env;
 
-	@Bean
+	/*@Bean
 	Queue queue() {
-		return QueueBuilder.durable(env.getProperty("spring.rabbitmq.api.queueName")).build();
+		return QueueBuilder.durable(env.getProperty("spring.rabbitmq.api.queueName.otp")).build();
 	}
 
 	@Bean
@@ -32,22 +32,47 @@ public class TwoFactorAuthenticationApplication {
 
 	@Bean
 	Binding binding(Queue queue, DirectExchange exchange) {
-		return BindingBuilder.bind(queue).to(exchange).with(env.getProperty("spring.rabbitmq.api.routingKey"));
+		return BindingBuilder.bind(queue).to(exchange).with(env.getProperty("spring.rabbitmq.api.routingKey.otp"));
 	}
+
+	@Bean
+	Queue queue1() {
+		return QueueBuilder.durable(env.getProperty("spring.rabbitmq.api.queueName.insufficient")).build();
+	}
+
+	@Bean
+	Binding binding1(DirectExchange exchange) {
+		return BindingBuilder.bind(queue1()).to(exchange).with(env.getProperty("spring.rabbitmq.api.routingKey.insufficient"));
+	}*/
 
 	@Bean
 	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
 											 MessageListenerAdapter listenerAdapter) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
-		container.setQueueNames(env.getProperty("spring.rabbitmq.api.queueName"));
+		container.setQueueNames(env.getProperty("spring.rabbitmq.api.queueName.otp"));
 		container.setMessageListener(listenerAdapter);
+		return container;
+	}
+
+	@Bean
+	SimpleMessageListenerContainer containerForIF(ConnectionFactory connectionFactory,
+											 MessageListenerAdapter listenerAdapterForIF) {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+		container.setConnectionFactory(connectionFactory);
+		container.setQueueNames(env.getProperty("spring.rabbitmq.api.queueName.insufficient"));
+		container.setMessageListener(listenerAdapterForIF);
 		return container;
 	}
 
 	@Bean
 	MessageListenerAdapter listenerAdapter(MessagingController receiver) {
 		return new MessageListenerAdapter(receiver, "receiveMessage");
+	}
+
+	@Bean
+	MessageListenerAdapter listenerAdapterForIF(MessagingController receiver) {
+		return new MessageListenerAdapter(receiver, "receiveMessageForIF");
 	}
 
 	@Bean
@@ -58,5 +83,6 @@ public class TwoFactorAuthenticationApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TwoFactorAuthenticationApplication.class, args);
 	}
+
 
 }

@@ -1,6 +1,7 @@
 package com.cognibank.messagingservice.controller;
 
 import com.cognibank.messagingservice.model.Message;
+import com.cognibank.messagingservice.model.MessageForIF;
 import com.cognibank.messagingservice.service.MessagingServiceImplementation;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,37 @@ public class MessagingController {
      * @param receivedMessage    A byte array in which we will receive the message.
      */
     public void receiveMessage(byte[] receivedMessage) {
-        System.out.println("Consumed Message <" + receivedMessage.toString() + ">");
-        // Need to parse the received message as a JSON object using GSON library.
-        final Gson gson = new Gson();
-        // Message received should be in json format.
-        final Message message = gson.fromJson(new String(receivedMessage), Message.class);
-        System.out.println("JSON Received <" + message + ">");
-        // Service method call for processing the message.
-        messagingService.sendMessage(message);
+        try {
+            System.out.println("Consumed Message <" + receivedMessage.toString() + ">");
+            //Convert the byte array to String.
+            final String messageStr = new String(receivedMessage);
+            System.out.println("messageStr:" + messageStr);
+            // Need to parse the received message as a JSON object using GSON library.
+            final Gson gson = new Gson();
+            // Message received should be in json format.
+            final Message message = gson.fromJson(messageStr, Message.class);
+            System.out.println("JSON Received <" + message + ">");
+            // Service method call for processing the message.
+            messagingService.sendMessage(message);
+        } catch (Exception ex) {
+            System.out.println("Exception occured on the listener method for otp notification queue...") ;
+            ex.printStackTrace();
+        }
     }
 
+    public void receiveMessageForIF(byte[] receivedMessage) {
+        try {
+            System.out.println("receiveMessage1 Consumed Message <" + receivedMessage.toString() + ">");
+            // Need to parse the received message as a JSON object using GSON library.
+            final Gson gson = new Gson();
+            // Message received should be in json format.
+            final MessageForIF message = gson.fromJson(new String(receivedMessage), MessageForIF.class);
+            System.out.println("JSON Received <" + message + ">");
+            // Service method call for processing the message.
+            messagingService.sendMessageForIF(message);
+        } catch (Exception ex) {
+            System.out.println("Exception occured on the listener method for insufficient funds queue..." );
+            ex.printStackTrace();
+        }
+    }
 }

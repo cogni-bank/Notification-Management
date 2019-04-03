@@ -23,6 +23,7 @@ public class MessagingControllerTest {
     private RabbitTemplate template;
 
     @Before
+    @Test
     public void createConnection() {
         connectionFactory = new CachingConnectionFactory();
         assertTrue("Should be able to create a connection with the Rabbit MQ server.",
@@ -36,7 +37,15 @@ public class MessagingControllerTest {
     @Ignore
     public void testForSendMessageToNotificationQueueWithEmail() {
         final byte[] producedMessage = "{email:'abcabc@gmail.com', code:123456, type:'EMAIL'}".getBytes();
-        template.convertAndSend(env.getProperty("spring.rabbitmq.api.directExchangeName"), env.getProperty("spring.rabbitmq.api.routingKey"), producedMessage);
+        template.convertAndSend(env.getProperty("spring.rabbitmq.api.directExchangeName"), env.getProperty("spring.rabbitmq.api.routingKey.otp"), producedMessage);
+        connectionFactory.destroy();
+    }
+
+    @Test
+    @Ignore
+    public void testForSendMessageToInsufficientFundsQueueWithEmail() {
+        final byte[] producedMessage = "{email:'fregrtg@gmail.com', accountBalance:'11.00', type:'EMAIL'}".getBytes();
+        template.convertAndSend(env.getProperty("spring.rabbitmq.api.directExchangeName"), env.getProperty("spring.rabbitmq.api.routingKey.insufficient"), producedMessage);
         connectionFactory.destroy();
     }
 
