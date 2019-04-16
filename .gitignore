@@ -30,4 +30,3 @@ HELP.md
 .vscode/
 
 ### Properties file ###
-/src/main/resources/application.properties
