@@ -18,6 +18,8 @@ env:
 phases:
   install:
     commands:
+      - printenv
+      - echo setting environment variables... un->$SMTP_USERNAME pw->$SMTP_PASSWORD
       - echo Entered the install phase and installing gradle..
       - apt-get update -y
       - apt-get install -y gradle
@@ -32,12 +34,6 @@ phases:
       - ./gradlew build --debug
   post_build:
     commands:
-      - echo setting environment variables... un->$SMTP_USERNAME pw->$SMTP_PASSWORD
-      - export SMTP_USERNAME=$SMTP_USERNAME
-      - export SMTP_PASSWORD=$SMTP_PASSWORD
-      - echo setting environment variables... un->$SMTP_USERNAME pw->$SMTP_PASSWORD
-      - export RABBITMQ_USERNAME=$RABBITMQ_USERNAME
-      - export RABBITMQ_PASSWORD=$RABBITMQ_PASSWORD
       - echo Entered the post_build phase...
       - echo Building the docker image..
       - docker build -f Dockerfile -t $IMAGE_REPO_NAME .
