@@ -63,7 +63,7 @@ public class MessagingServiceImplementation implements MessagingService {
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setTo(message.getEmail());
-            mailMessage.setFrom(env.getProperty("spring.mail.username"));
+            mailMessage.setFrom("notify@cognibank.name");
             mailMessage.setSubject(SUBJECT);
             mailMessage.setText(getEmailText(message.getCode()));
             // Java Mail API for sending the email.
