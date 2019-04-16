@@ -21,6 +21,7 @@ public class MessagingServiceImplementation implements MessagingService {
     @Override
     public void sendMessage(final Message message) {
         // TODO: Need to replace the hard-coded string with configuration
+
         if(message != null && message.getType().equalsIgnoreCase(EMAIL_TYPE)) {
             sendAnEmailToUser(message);
         } else if(message.getType().equalsIgnoreCase(PHONE_TYPE)) {
@@ -49,11 +50,15 @@ public class MessagingServiceImplementation implements MessagingService {
             // Java Mail API for sending the email.
             javaMailSender.send(mailMessage);
         } catch (Exception exception) {
-            System.out.println("Exception has occured while sending the email...Exception class is " + exception);
+            System.out.println("Exception has occurred while sending the email...Exception class is " + exception);
         }
     }
 
 
+    /**
+     *
+     * @param message
+     */
     private void sendAnEmailToUser(Message message) {
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -96,7 +101,7 @@ public class MessagingServiceImplementation implements MessagingService {
                     new PhoneNumber(env.getProperty("spring.twilio.api.fromPhoneNumber")), // from
                     getSmsText(message.getCode())).create();
         } catch (Exception exception) {
-            System.out.println("Exception has occured while sending the sms.");
+            System.out.println("Exception has occurred while sending the sms.");
             System.out.println(exception);
         }
     }

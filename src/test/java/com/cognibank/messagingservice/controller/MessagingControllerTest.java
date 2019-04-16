@@ -36,7 +36,7 @@ public class MessagingControllerTest {
     @Test
     @Ignore
     public void testForSendMessageToNotificationQueueWithEmail() {
-        final byte[] producedMessage = "{email:'abcabc@gmail.com', code:123456, type:'EMAIL'}".getBytes();
+        final byte[] producedMessage = "{email:'abcabc@njit.edu', code:123456, type:'EMAIL'}".getBytes();
         template.convertAndSend(env.getProperty("spring.rabbitmq.api.directExchangeName"), env.getProperty("spring.rabbitmq.api.routingKey.otp"), producedMessage);
         connectionFactory.destroy();
     }
