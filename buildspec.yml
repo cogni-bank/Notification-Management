@@ -10,6 +10,8 @@ env:
     AWS_ACCOUNT_ID: "/CodeBuild/AWS_ACCOUNT_ID"
     AWS_ACCESS_KEY_ID: "/CodeBuild/AWS_ACCESS_KEY_ID"
     AWS_SECRET_ACCESS_KEY: "/CodeBuild/AWS_SECRET_ACCESS_KEY"
+    SMTP_USERNAME: "/CodeBuild/SMTP_USERNAME"
+    SMTP_PASSWORD: "/CodeBuild/SMTP_PASSWORD"
 
 phases:
   install:
@@ -28,6 +30,9 @@ phases:
       - ./gradlew build --debug
   post_build:
     commands:
+      - echo setting environment variables... un->$SMTP_USERNAME pw->$SMTP_PASSWORD
+      - export SMTP_USERNAME=$SMTP_USERNAME
+      - export SMTP_PASSWORD=$SMTP_PASSWORD
       - echo Entered the post_build phase...
       - echo Building the docker image..
       - docker build -f Dockerfile -t $IMAGE_REPO_NAME .
