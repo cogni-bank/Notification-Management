@@ -10,7 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import com.twilio.Twilio;
+//import com.twilio.Twilio;
 import org.springframework.core.env.Environment;
 
 @SpringBootApplication
@@ -77,7 +77,7 @@ public class TwoFactorAuthenticationApplication {
 
 	@Bean
 	void initializeTwilio () {
-		Twilio.init(env.getProperty("spring.twilio.api.account_sid"), env.getProperty("spring.twilio.api.auth_id"));
+//		Twilio.init(env.getProperty("spring.twilio.api.account_sid"), env.getProperty("spring.twilio.api.auth_id"));
 	}
 
 	public static void main(String[] args) {

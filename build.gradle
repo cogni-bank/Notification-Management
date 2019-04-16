@@ -20,7 +20,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'com.google.code.gson:gson:2.7'
-	implementation 'com.twilio.sdk:twilio:7.16.1'
+//	implementation 'com.twilio.sdk:twilio:7.16.1'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

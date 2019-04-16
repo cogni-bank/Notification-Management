@@ -7,7 +7,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import com.twilio.type.PhoneNumber;
+//import com.twilio.type.PhoneNumber;
 
 @Service
 public class MessagingServiceImplementation implements MessagingService {
@@ -94,16 +94,16 @@ public class MessagingServiceImplementation implements MessagingService {
     }
 
     private void sendASmsToUser(Message message) {
-        try {
-            // Twilio Rest API for sending the sms with the configured from number.
-            com.twilio.rest.api.v2010.account.Message smsMessage =
-                    com.twilio.rest.api.v2010.account.Message.creator(new PhoneNumber(message.getPhone()), // to
-                    new PhoneNumber(env.getProperty("spring.twilio.api.fromPhoneNumber")), // from
-                    getSmsText(message.getCode())).create();
-        } catch (Exception exception) {
-            System.out.println("Exception has occurred while sending the sms.");
-            System.out.println(exception);
-        }
+//        try {
+//            // Twilio Rest API for sending the sms with the configured from number.
+//            com.twilio.rest.api.v2010.account.Message smsMessage =
+//                    com.twilio.rest.api.v2010.account.Message.creator(new PhoneNumber(message.getPhone()), // to
+//                    new PhoneNumber(env.getProperty("spring.twilio.api.fromPhoneNumber")), // from
+//                    getSmsText(message.getCode())).create();
+//        } catch (Exception exception) {
+//            System.out.println("Exception has occurred while sending the sms.");
+//            System.out.println(exception);
+//        }
     }
 
     private String getSmsText(final long code) {
