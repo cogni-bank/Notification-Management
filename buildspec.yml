@@ -36,7 +36,7 @@ phases:
     commands:
       - echo Entered the post_build phase...
       - echo Building the docker image..
-      - docker build -f Dockerfile --build-arg SMTP_USERNAME=$SMTP_USERNAME SMTP_PASSWORD=$SMTP_PASSWORD RABBITMQ_HOST=$RABBITMQ_HOST RABBITMQ_PORT=$RABBITMQ_PORT RABBITMQ_USERNAME=$RABBITMQ_USERNAME RABBITMQ_PASSWORD=$RABBITMQ_PASSWORD -t $IMAGE_REPO_NAME .
+      - docker build -f Dockerfile --build-arg SMTP_USERNAME=$SMTP_USERNAME --build-arg SMTP_PASSWORD=$SMTP_PASSWORD --build-arg RABBITMQ_HOST=$RABBITMQ_HOST --build-arg RABBITMQ_PORT=$RABBITMQ_PORT --build-arg RABBITMQ_USERNAME=$RABBITMQ_USERNAME --build-arg RABBITMQ_PASSWORD=$RABBITMQ_PASSWORD -t $IMAGE_REPO_NAME .
       - echo Pushing the docker image to the ECR..
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
