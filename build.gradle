@@ -18,6 +18,7 @@ dependencies {
 	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'com.google.code.gson:gson:2.7'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'com.twilio.sdk:twilio:7.16.1'

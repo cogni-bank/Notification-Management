@@ -25,7 +25,7 @@ phases:
     commands:
       - echo Entered the build phase, Building the Project and Creating a JAR in build/libs using ./gradlew build
       - echo Build started on `date`
-      - ./gradlew build
+      - ./gradlew build --debug
   post_build:
     commands:
       - echo Entered the post_build phase...
